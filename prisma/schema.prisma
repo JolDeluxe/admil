@@ -6,3 +6,25 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+
+model Usuario {
+  id              Int       @id @default(autoincrement())
+  nombre          String
+  email           String    @unique
+  apellidos       String
+  salt            String    @db.Text
+  hashedPassword  String    @db.Text
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt 
+  rolId           Int
+  rol             Roles     @relation(fields: [rolId], references: [id]) 
+}
+
+model Roles {
+  id         Int        @id @default(autoincrement())
+  nombre     String
+  usuarios   Usuario[]  
+}
+
+
