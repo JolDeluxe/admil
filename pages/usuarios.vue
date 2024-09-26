@@ -1,11 +1,10 @@
 <!-- <script setup lang="ts">
 definePageMeta({
-  middleware: "auth", 
+  middleware: "auth",
 });
 </script> -->
 
 <template>
-  <div>
-    <h1>Hola</h1>
-  </div>
+  <UsuarioPanel1 />
+  <UsuarioTabla />
 </template>

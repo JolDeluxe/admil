@@ -11,10 +11,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        // primary: "#000000",
-        // secondary: "#3E787A",
-        // white: "#FFFFFF",
-        // grisFondo: "#F4F5F0",
+        VerdeMilitar: "#0C231E",
+        VerdeSecondary: "#13322b",
       },
       fontFamily: {
         archivo: ["Archivo", "sans-serif"],
