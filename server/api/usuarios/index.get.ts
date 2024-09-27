@@ -4,22 +4,29 @@ export default defineEventHandler(async () => {
   let usuarios;
   try {
     usuarios = await prisma.usuario.findMany({
-      include: {
-        rol: true,
+      select: {
+        nombre: true,
+        apellidos: true,
+        email: true,
+        rol: {
+          select: {
+            nombre: true,
+          },
+        },
       },
     });
 
-    const usuariosData = usuarios.map((usuario) => ({
-      id: usuario.id,
-      nombre: usuario.nombre,
-      apellidos: usuario.apellidos,
-      email: usuario.email,
-      rol: usuario.rol.nombre,
-    }));
+    // const usuariosData = usuarios.map((usuario) => ({
+    //   id: usuario.id,
+    //   nombre: usuario.nombre,
+    //   apellidos: usuario.apellidos,
+    //   email: usuario.email,
+    //   rol: usuario.rol.nombre,
+    // }));
 
     return {
       status: "success",
-      data: usuariosData,
+      data: usuarios,
     };
   } catch (error) {
     throw createError({

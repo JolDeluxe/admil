@@ -1,18 +1,42 @@
-// import { defineStore } from 'pinia';
+import type { APIResponse } from "~/server/lib/types";
 
-// export const useUserStore = defineStore('user', () => {
-//   const usuarios = ref<String>("");
-//   const fetchUsuarios = async () => {
+interface UsuarioParcial {
+  nombre: string;
+  apellidos: string;
+  email: string;
+  rol: {
+    nombre: string;
+  };
+}
 
-//     const { data,error } = await usefetch("/api/usuarios");
-//   if(data.value)
+export const useUsersStore = defineStore("users", () => {
+  const usuarios = ref<UsuarioParcial[]>([]);
+  const error = ref<string | null>(null);
 
-//   };
+  const getUsuarios = async () => {
+    error.value = null;
 
-//   return {
-//     usuarios,
-//     loading,
-//     error,
-//     fetchUsuarios,
-//   };
-// });
+    try {
+      const res = await $fetch<APIResponse<UsuarioParcial[]>>("/api/usuarios", {
+        method: "GET",
+      });
+
+      if (res.status === "success" && res.data) {
+        usuarios.value = res.data;
+      } else if (res.error) {
+        error.value = res.error;
+      } else {
+        error.value = "Error: Formato de respuesta inesperado.";
+      }
+    } catch (err: any) {
+      error.value = err?.message || "Error al cargar la información.";
+      console.error("Error al cargar los usuarios:", err);
+    }
+  };
+
+  return {
+    getUsuarios,
+    usuarios,
+    error,
+  };
+});
