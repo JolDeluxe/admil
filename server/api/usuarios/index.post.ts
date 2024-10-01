@@ -12,8 +12,8 @@ export default defineEventHandler(async (event) => {
   }
   let roleExists;
   try {
-    roleExists = await prisma.roles.findUnique({
-      where: { id: rol },
+    roleExists = await prisma.roles.findFirst({
+      where: { nombre: rol },
     });
   } catch (error) {
     throw createError({
@@ -69,7 +69,7 @@ export default defineEventHandler(async (event) => {
         salt: salt,
         hashedPassword: hashed_password,
         rol: {
-          connect: { id: rol },
+          connect: { id: roleExists.id },
         },
       },
     });

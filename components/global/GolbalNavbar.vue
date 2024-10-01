@@ -33,7 +33,7 @@ import cerrar from "~/assets/img/navbar/cerrar.png";
           >Usuarios</NuxtLink
         >
         <NuxtLink
-          to="/roles"
+          to="/"
           class="transition-all rounded-2xl cursor-pointer px-4 py-1 hover:underline"
           >Roles</NuxtLink
         >
