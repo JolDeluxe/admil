@@ -24,6 +24,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
     "/roles": ["Informatica"],
     "/usuarios": ["Informatica"],
     "/administrativo": ["Recursos Humanos"],
+    "/Admisiones/RegistrosPublicos": ["Aspirante"],
+    "/Admisiones/Registros_asp": ["Aspirante"],
+    "/Admisiones/CatalagoPeriodos": ["Recursos Humanos"],
+    "/Admisiones/Seleccion_asp": ["Recursos Humanos"],
   };
 
   const rolesPermitidos = rutasPorRol[to.path];

@@ -81,11 +81,11 @@ function logout() {
             <i class="mdi mdi-briefcase text-3xl"></i>
             <span>Administrativo</span>
           </NuxtLink>
-         
+
           <NuxtLink
-            v-if="usuario?.rol === 'Aspirantes'"
+            v-if="usuario?.rol === 'Aspirante'"
             @click="isMenuOpen = false"
-            to="/Adminison/RegistrosPublicos"
+            to="/Admisiones/RegistrosPublicos"
             class="hover:underline flex flex-col items-center"
           >
             <i class="mdi mdi-account text-3xl"></i>
@@ -93,9 +93,9 @@ function logout() {
           </NuxtLink>
 
           <NuxtLink
-            v-if="usuario?.rol === 'Aspirantes'"
+            v-if="usuario?.rol === 'Aspirante'"
             @click="isMenuOpen = false"
-            to="/Adminison/Registros_asp"
+            to="/Admisiones/Registros_asp"
             class="hover:underline flex flex-col items-center"
           >
             <i class="mdi mdi-account text-3xl"></i>
@@ -121,7 +121,6 @@ function logout() {
             <i class="mdi mdi-briefcase text-3xl"></i>
             <span>Seleccion aspirantes</span>
           </NuxtLink>
-
         </div>
       </div>
 

@@ -2,7 +2,6 @@
   <div class="resultados-publicos">
     <h2>Resultados de Aspirantes Aceptados</h2>
 
-    
     <div v-if="paginatedAspirantes.length === 0" class="mensaje-vacio">
       No se encontraron resultados.
     </div>
@@ -74,7 +73,7 @@ export default {
     async fetchAspirantes() {
       try {
         const response = await fetch(
-          "http://localhost:4000/api/aspirantes/aceptados"
+          "http://10.16.14.144:4001/api/aspirantes/aceptados"
         );
         const data = await response.json();
 
@@ -97,7 +96,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .resultados-publicos {
@@ -205,4 +203,3 @@ h2 {
   margin: 0 10px;
 }
 </style>
-

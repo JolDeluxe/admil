@@ -64,7 +64,7 @@ export default {
   methods: {
     async fetchPeriodos() {
       try {
-        const response = await fetch("http://localhost:4000/api/periodos");
+        const response = await fetch("http://10.16.14.144:4001/api/periodos");
         if (!response.ok) {
           throw new Error("Error al obtener los periodos");
         }
@@ -88,13 +88,16 @@ export default {
         // Imprime los datos que se están enviando en la consola
         console.log("Datos a enviar:", nuevoAspirante);
 
-        const response = await fetch("http://localhost:4000/api/aspirantes", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(nuevoAspirante),
-        });
+        const response = await fetch(
+          "http://10.16.14.144:4001/api/aspirantes",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(nuevoAspirante),
+          }
+        );
 
         if (!response.ok) {
           const errorData = await response.json();

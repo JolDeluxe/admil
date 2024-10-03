@@ -7,12 +7,22 @@
       <form @submit.prevent="agregarPeriodo">
         <div class="campo">
           <label for="nombre">Nombre del Periodo:</label>
-          <input id="nombre" v-model="nuevoPeriodo.nombre" placeholder="Ej: Primavera 2024" required />
+          <input
+            id="nombre"
+            v-model="nuevoPeriodo.nombre"
+            placeholder="Ej: Primavera 2024"
+            required
+          />
         </div>
 
         <div class="campo">
           <label for="descripcion">Descripción:</label>
-          <textarea id="descripcion" v-model="nuevoPeriodo.descripcion" placeholder="Ej: Inscripción para el periodo de Primavera" required></textarea>
+          <textarea
+            id="descripcion"
+            v-model="nuevoPeriodo.descripcion"
+            placeholder="Ej: Inscripción para el periodo de Primavera"
+            required
+          ></textarea>
         </div>
 
         <div class="campo">
@@ -45,13 +55,23 @@
             <td>{{ periodo.nombre }}</td>
             <td>{{ periodo.descripcion }}</td>
             <td>
-              <span class="estatus" :class="{'abierta': periodo.estatus === 1, 'inactivo': periodo.estatus === 0}">
-                {{ periodo.estatus === 1 ? 'Abierta' : 'Inactivo' }}
+              <span
+                class="estatus"
+                :class="{
+                  abierta: periodo.estatus === 1,
+                  inactivo: periodo.estatus === 0,
+                }"
+              >
+                {{ periodo.estatus === 1 ? "Abierta" : "Inactivo" }}
               </span>
             </td>
             <td>
-              <button @click="abrirModal(periodo)" class="btn-editar">Editar</button>
-              <button @click="eliminarPeriodo(periodo.id)" class="btn-eliminar">Eliminar</button>
+              <button @click="abrirModal(periodo)" class="btn-editar">
+                Editar
+              </button>
+              <button @click="eliminarPeriodo(periodo.id)" class="btn-eliminar">
+                Eliminar
+              </button>
             </td>
           </tr>
         </tbody>
@@ -71,7 +91,11 @@
 
           <div class="campo">
             <label for="descripcionModal">Descripción:</label>
-            <textarea id="descripcionModal" v-model="periodoEditado.descripcion" required></textarea>
+            <textarea
+              id="descripcionModal"
+              v-model="periodoEditado.descripcion"
+              required
+            ></textarea>
           </div>
 
           <div class="campo">
@@ -95,8 +119,8 @@ export default {
     return {
       periodos: [],
       nuevoPeriodo: {
-        nombre: '',
-        descripcion: '',
+        nombre: "",
+        descripcion: "",
         estatus: 1, // Cambiar a número
       },
       mostrarModal: false,
@@ -110,35 +134,40 @@ export default {
     async fetchPeriodos() {
       console.log("Fetching periodos...");
       try {
-        const response = await fetch('http://localhost:4000/api/periodos');
-        if (!response.ok) throw new Error('Error al obtener los periodos');
+        const response = await fetch("http://10.16.14.144:4001/api/periodos");
+        if (!response.ok) throw new Error("Error al obtener los periodos");
         this.periodos = await response.json();
         console.log("Periodos obtenidos:", this.periodos);
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     },
     async agregarPeriodo() {
       const { nombre, descripcion, estatus } = this.nuevoPeriodo;
-      if (!nombre || !descripcion) return alert("Todos los campos son obligatorios");
+      if (!nombre || !descripcion)
+        return alert("Todos los campos son obligatorios");
 
       console.log("Datos a enviar:", { nombre, descripcion, estatus });
 
       try {
-        const response = await fetch('http://localhost:4000/api/periodos', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nombre, descripcion, estatus: Number(estatus) }), // Convertir a número
+        const response = await fetch("http://10.16.14.144:4001/api/periodos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nombre,
+            descripcion,
+            estatus: Number(estatus),
+          }), // Convertir a número
         });
 
-        if (!response.ok) throw new Error('Error al agregar el periodo');
+        if (!response.ok) throw new Error("Error al agregar el periodo");
 
         const nuevoPeriodo = await response.json();
         console.log("Nuevo periodo agregado:", nuevoPeriodo);
         this.periodos.push(nuevoPeriodo);
-        this.nuevoPeriodo = { nombre: '', descripcion: '', estatus: 1 }; // Reiniciar a número
+        this.nuevoPeriodo = { nombre: "", descripcion: "", estatus: 1 }; // Reiniciar a número
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     },
     abrirModal(periodo) {
@@ -156,33 +185,47 @@ export default {
       console.log("Editando periodo con ID:", id);
 
       try {
-        const response = await fetch(`http://localhost:4000/api/periodos/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nombre, descripcion, estatus: Number(estatus) }), // Convertir a número
-        });
+        const response = await fetch(
+          `http://10.16.14.144:4001/api/periodos/${id}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              nombre,
+              descripcion,
+              estatus: Number(estatus),
+            }), // Convertir a número
+          }
+        );
 
-        if (!response.ok) throw new Error('Error al editar el periodo');
+        if (!response.ok) throw new Error("Error al editar el periodo");
 
         const updatedPeriodo = await response.json();
         console.log("Periodo actualizado:", updatedPeriodo);
-        const index = this.periodos.findIndex(p => p.id === updatedPeriodo.id);
+        const index = this.periodos.findIndex(
+          (p) => p.id === updatedPeriodo.id
+        );
         this.periodos.splice(index, 1, updatedPeriodo); // Actualizar el periodo en la lista
 
         this.cerrarModal(); // Cerrar el modal
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     },
     async eliminarPeriodo(id) {
       console.log("Eliminando periodo con ID:", id);
       try {
-        const response = await fetch(`http://localhost:4000/api/periodos/${id}`, { method: 'DELETE' });
-        if (!response.ok) throw new Error('Error al eliminar el periodo');
-        this.periodos = this.periodos.filter(periodo => periodo.id !== id);
+        const response = await fetch(
+          `http://10.16.14.144:4001/api/periodos/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+        if (!response.ok) throw new Error("Error al eliminar el periodo");
+        this.periodos = this.periodos.filter((periodo) => periodo.id !== id);
         console.log("Periodo eliminado con ID:", id);
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     },
   },
@@ -197,9 +240,10 @@ export default {
   border-radius: 8px;
   background-color: #ffffff;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 }
-h2, h3 {
+h2,
+h3 {
   text-align: center;
   color: #4a4a4a;
 }
@@ -233,7 +277,7 @@ textarea {
   resize: vertical;
 }
 .btn-agregar {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   padding: 10px 15px;
   cursor: pointer;
@@ -252,7 +296,8 @@ textarea {
   width: 100%;
   border-collapse: collapse;
 }
-.table th, .table td {
+.table th,
+.table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -276,7 +321,7 @@ textarea {
 }
 .btn-editar,
 .btn-eliminar {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   border: none;
   padding: 5px 10px;
