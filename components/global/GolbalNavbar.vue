@@ -33,20 +33,30 @@ import cerrar from "~/assets/img/navbar/cerrar.png";
           >Usuarios</NuxtLink
         >
         <NuxtLink
-          to="/roles"
+          to="/"
           class="transition-all rounded-2xl cursor-pointer px-4 py-1 hover:underline"
           >Roles</NuxtLink
         >
-        <!-- <NuxtLink
-          to="/faqs"
+        <NuxtLink
+          to="/grupos"
           class="transition-all rounded-2xl cursor-pointer px-4 py-1 hover:underline"
-          >FAQ'S</NuxtLink
+          >Grupos</NuxtLink
         >
         <NuxtLink
-          to="/contacto"
+          to="/carreras"
           class="transition-all rounded-2xl cursor-pointer px-4 py-1 hover:underline"
-          >Contacto</NuxtLink
-        > -->
+          >Carreras</NuxtLink
+        >
+        <NuxtLink
+          to="/alumnos"
+          class="transition-all rounded-2xl cursor-pointer px-4 py-1 hover:underline"
+          >Alumnos</NuxtLink
+        >
+        <NuxtLink
+          to="/profesores"
+          class="transition-all rounded-2xl cursor-pointer px-4 py-1 hover:underline"
+          >Profesores</NuxtLink
+        >
       </div>
 
       <div
@@ -56,6 +66,7 @@ import cerrar from "~/assets/img/navbar/cerrar.png";
         <div class="flex flex-col items-center py-6 gap-6">
           <NuxtLink to="/usuarios" class="hover:underline">Usuarios</NuxtLink>
           <NuxtLink to="/roles" class="hover:underline">Roles</NuxtLink>
+          <NuxtLink to="/grupos/gruposAdmin" class="hover:underline">Grupos</NuxtLink>
         </div>
       </div>
     </div>

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.4",
+    "@prisma/engines": "^5.20.0",
     "@vee-validate/zod": "^4.13.2",
     "chalk": "^5.3.0",
     "jsonwebtoken": "^9.0.2",
@@ -33,6 +34,11 @@
     "tailwindcss": "^3.4.12",
     "vite-plugin-vuetify": "^2.0.4",
     "postcss": "^8.4.40",
-    "vuetify": "^3.7.2"
+    "vuetify": "^3.7.2",
+    "@types/bun": "latest"
+  },
+  "module": "index.ts",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   }
 }

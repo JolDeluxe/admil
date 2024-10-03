@@ -20,6 +20,12 @@ export default {
       maxWidth: {
         // "8xl": "1312px",
       },
+      fontSize: {
+        '9xl': '8rem',  // Tamaño predefinido más grande
+        '10xl': '10rem', // Nuevo tamaño agregado
+        '11xl': '12rem', // Otro tamaño más grande
+        '12xl': '14rem', // Puedes seguir añadiendo más
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],
