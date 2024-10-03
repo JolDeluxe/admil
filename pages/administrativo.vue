@@ -1,3 +1,8 @@
+<script setup lang="ts">
+definePageMeta({
+  middleware: ["auth", "role-check"],
+});
+</script>
 <template>
   <section>
     <div

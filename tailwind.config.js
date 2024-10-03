@@ -15,6 +15,7 @@ export default {
         VerdeSecondary: "#13322b",
         MarronFuerte: "#4B3A30",
         VerdeCamuflajeClaro: "#6B8E23",
+        grisFondo: "#F4F5F0",
       },
       fontFamily: {
         archivo: ["Archivo", "sans-serif"],

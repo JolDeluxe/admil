@@ -10,6 +10,6 @@
 
 <script setup>
 // Importar los componentes
-import AlumnoInfo from './components/alumnos/AlumnoInfo.vue';
-import CalificacionesTabla from './components/alumnos/CalificacionesTabla.vue';
+import AlumnoInfo from "./components/alumnos/AlumnoInfo.vue";
+import CalificacionesTabla from "./components/alumnos/CalificacionesTabla.vue";
 </script>

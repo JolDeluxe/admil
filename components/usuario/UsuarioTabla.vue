@@ -45,7 +45,7 @@ const toggleEditUsuario = () => {
     />
   </div>
 
-  <section class="px-6 lg:px-32">
+  <section class="pb-16 px-6 lg:px-32">
     <v-card-title class="d-flex align-center pe-2">
       <v-icon icon="mdi-account-circle"></v-icon> &nbsp; Usuarios
 

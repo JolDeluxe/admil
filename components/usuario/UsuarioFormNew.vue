@@ -68,9 +68,9 @@ const submit = handleSubmit(async (values) => {
       values.contraseña,
       values.rol
     );
+    location.reload();
   } finally {
     isSubmitting.value = false;
-    location.reload();
   }
 });
 </script>

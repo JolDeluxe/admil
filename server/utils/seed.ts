@@ -5,7 +5,10 @@ import chalk from "chalk";
 async function main() {
   const roles = [
     {
-      nombre: "ADMIN",
+      nombre: "Informatica",
+    },
+    {
+      nombre: "Recursos Humanos",
     },
     {
       nombre: "Aspirante",
@@ -18,12 +21,6 @@ async function main() {
     },
     {
       nombre: "Profesor",
-    },
-    {
-      nombre: "RH",
-    },
-    {
-      nombre: "TI",
     },
   ];
 
@@ -59,11 +56,32 @@ async function main() {
 
   const usuarios = [
     {
-      nombre: "Admin",
-      apellidos: "Maico",
+      nombre: "Maico",
+      apellidos: "Lopez",
       email: "maico@gmail.com",
       password: "maico123",
       rol: 1,
+    },
+    {
+      nombre: "Jaqui",
+      apellidos: "Núñez",
+      email: "Jaqui@gmail.com",
+      password: "jaqui123",
+      rol: 2,
+    },
+    {
+      nombre: "Isaac",
+      apellidos: "Murillo",
+      email: "isaac@gmail.com",
+      password: "Isaaci123",
+      rol: 3,
+    },
+    {
+      nombre: "Joel",
+      apellidos: "Rodriguez",
+      email: "joel@gmail.com",
+      password: "joel12345",
+      rol: 5,
     },
   ];
 

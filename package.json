@@ -11,6 +11,7 @@
     "db-seed": "bun run server/utils/seed.ts"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
     "@pinia/nuxt": "^0.5.4",
     "@prisma/engines": "^5.20.0",
     "@vee-validate/zod": "^4.13.2",
@@ -29,9 +30,7 @@
   "devDependencies": {
     "@prisma/client": "^5.20.0",
     "@tailwindcss/forms": "^0.5.9",
-    "@types/bun": "latest",
     "@types/jsonwebtoken": "^9.0.7",
-    "postcss": "^8.4.40",
     "prisma": "^5.20.0",
     "tailwindcss": "^3.4.12",
     "vite-plugin-vuetify": "^2.0.4",

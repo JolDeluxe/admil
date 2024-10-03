@@ -18,7 +18,7 @@ export const useAuthStore = defineStore("auth", () => {
       if (response.token) {
         authToken.value = response.token;
         toast.success("Login exitoso!");
-        router.push("/usuarios");
+        router.push("/");
       }
     } catch (error) {
       console.error("Error en el login:", error);

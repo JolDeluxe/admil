@@ -1,15 +1,26 @@
-// middleware/auth.ts
-import { defineNuxtRouteMiddleware, navigateTo, useCookie } from "nuxt/app";
-import { isCookieValid } from "../server/utils/cookies";
+import type { APIResponse } from "~/server/lib/types";
 
-export default defineNuxtRouteMiddleware((to) => {
+export default defineNuxtRouteMiddleware(async (to) => {
   const cookie = useCookie<string | null>("s-login");
 
   if (to.path === "/login") {
     return;
   }
 
-  if (!cookie.value || !isCookieValid(cookie.value)) {
+  if (!cookie.value) {
     return navigateTo("/login");
   }
+
+  const response = await $fetch<
+    APIResponse<{ id: number; email: string; nombre: string; rol: string }>
+  >("/api/verify-token", {
+    method: "POST",
+    body: { token: cookie.value },
+  });
+
+  if (response.status === "error" || !response.data) {
+    return navigateTo("/login");
+  }
+
+  // const { id, email, nombre, rol } = response.data;
 });
