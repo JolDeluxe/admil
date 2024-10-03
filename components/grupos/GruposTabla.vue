@@ -1,28 +1,21 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useDisplay } from "vuetify";
-import { useUsersStore } from "~/stores/user";
+import { useGruposStore } from "~/stores/grupos";
 import { storeToRefs } from "pinia"; // Asegúrate de importar esto
 
 const { mobile } = useDisplay();
 const search = ref("");
-const UsersStore = useUsersStore();
-const { usuarios, error } = storeToRefs(UsersStore);
-
-// Crear datos por defecto
-const defaultData = [
-  { nombre: "Ingeniería en Sistemas Computacionales", periodo: "2024", carrera: "Tecnologías de la Información", profesor: "Dr. Juan Pérez", alumnos: 30 },
-  { nombre: "Licenciatura en Matemáticas", periodo: "2024", carrera: "Matemáticas", profesor: "Dr. Ana Gómez", alumnos: 25 },
-];
+const gruposStore = useGruposStore();
+const { grupos, error } = storeToRefs(gruposStore);
 
 // Inicializamos el store con los datos por defecto
 onMounted(async () => {
-  UsersStore.$patch({ usuarios: defaultData }); // Aquí añadimos los dos datos por defecto
   await getData();
 });
 
 async function getData() {
-  await UsersStore.getUsuarios(); // Carga los datos (si hay) después de los predeterminados
+  await gruposStore.getGrupos();
 }
 
 const tableHeaders = ref<
@@ -33,7 +26,7 @@ const tableHeaders = ref<
 >([
   {
     title: "Nombre de Grupo",
-    key: "nombre",
+    key: "nombre_grupo",
   },
   {
     title: "Periodo",
@@ -85,7 +78,7 @@ const tableHeaders = ref<
     <v-data-table
       :headers="tableHeaders"
       :search="search"
-      :items="usuarios"
+      :items="grupos"
       :mobile="mobile"
       :items-per-page="10"
       items-per-page-text="Grupos por página"
@@ -94,25 +87,30 @@ const tableHeaders = ref<
       <template v-slot:header="{ column }">
         <span class="font-bold text-sm md:text-[1.1rem]">{{ column.title }}</span>
       </template>
-  
-      <template v-slot:item.nombre="{ item }">
-        <span class="text-sm md:text-base">{{ item.nombre }}</span> <!-- Cambié la clase a text-sm -->
+
+      <!-- Mostrar el nombre del grupo -->
+      <template v-slot:item.nombre_grupo="{ item }">
+        <span class="text-sm md:text-base">{{ item.nombre_grupo }}</span>
       </template>
 
+      <!-- Mostrar el periodo -->
       <template v-slot:item.periodo="{ item }">
-        <span class="text-sm md:text-base">{{ item.periodo }}</span> <!-- Cambié la clase a text-sm -->
+        <span class="text-sm md:text-base">{{ item.periodo }}</span>
       </template>
 
+      <!-- Mostrar solo el nombre de la carrera -->
       <template v-slot:item.carrera="{ item }">
-        <span class="text-sm md:text-base">{{ item.carrera }}</span> <!-- Cambié la clase a text-sm -->
+        <span class="text-sm md:text-base">{{ item.carrera.nombre }}</span>
       </template>
 
+      <!-- Mostrar el profesor -->
       <template v-slot:item.profesor="{ item }">
-        <span class="text-sm md:text-base">{{ item.profesor }}</span> <!-- Cambié la clase a text-sm -->
+        <span class="text-sm md:text-base">{{ item.profesor }}</span>
       </template>
 
+      <!-- Mostrar solo el número de alumnos -->
       <template v-slot:item.alumnos="{ item }">
-        <span class="text-sm md:text-base">{{ item.alumnos }}</span> <!-- Cambié la clase a text-sm -->
+        <span class="text-sm md:text-base">{{ item.alumnos.length }}</span>
       </template>
 
       <template v-slot:item.acciones="{ item }">

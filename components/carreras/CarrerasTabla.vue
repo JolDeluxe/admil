@@ -11,13 +11,12 @@ const carrerasStore = useCarrerasStore();
 const { carreras, error } = storeToRefs(carrerasStore);
 
 onMounted(async () => {
-  await carrerasStore.getCarreras();  // Cargamos los datos
+  await carrerasStore.getCarreras();
   console.log("Carreras cargadas:", carreras);
 });
 
 const tableHeaders = ref([
   { title: "Carrera", key: "nombre" },
-  { title: "Acciones", key: "acciones" },
 ]);
 </script>
 
@@ -58,14 +57,6 @@ const tableHeaders = ref([
 
       <template v-slot:item.nombre="{ item }">
         <span class="text-2xl">{{ item.nombre }}</span>
-      </template>
-
-      <template v-slot:item.acciones="{ item }">
-        <v-tooltip text="Editar">
-          <template v-slot:activator="{ props }">
-            <v-icon class="ml-4" v-bind="props" size="large">mdi-pencil</v-icon>
-          </template>
-        </v-tooltip>
       </template>
 
       <template v-slot:no-data>
