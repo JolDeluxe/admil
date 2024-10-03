@@ -11,6 +11,7 @@
     "db-seed": "bun run server/utils/seed.ts"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
     "@pinia/nuxt": "^0.5.4",
     "@vee-validate/zod": "^4.13.2",
     "chalk": "^5.3.0",

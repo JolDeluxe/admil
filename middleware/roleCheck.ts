@@ -3,10 +3,6 @@ import type { APIResponse } from "~/server/lib/types";
 export default defineNuxtRouteMiddleware(async (to) => {
   const cookie = useCookie<string | null>("s-login");
 
-  if (to.path === "/login") {
-    return;
-  }
-
   if (!cookie.value) {
     return navigateTo("/login");
   }
@@ -22,5 +18,17 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return navigateTo("/login");
   }
 
-  // const { id, email, nombre, rol } = response.data;
+  const { rol } = response.data;
+
+  const rutasPorRol: Record<string, string[]> = {
+    "/roles": ["Informatica"],
+    "/usuarios": ["Informatica"],
+    "/administrativo": ["Recursos Humanos"],
+  };
+
+  const rolesPermitidos = rutasPorRol[to.path];
+
+  if (rolesPermitidos && !rolesPermitidos.includes(rol)) {
+    return navigateTo("/");
+  }
 });

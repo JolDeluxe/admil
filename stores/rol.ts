@@ -1,9 +1,11 @@
 import type { APIResponse } from "~/server/lib/types";
 import type { Roles } from "@prisma/client";
+import { useToast } from "vue-toast-notification";
 
 export const useRolStore = defineStore("roles", () => {
   const roles = ref<Roles[]>([]);
   const error = ref<string | null>(null);
+  const toast = useToast();
 
   const getRoles = async () => {
     error.value = null;
@@ -26,8 +28,48 @@ export const useRolStore = defineStore("roles", () => {
     }
   };
 
+  const newRol = async (nombre: string) => {
+    try {
+      const res = await $fetch<APIResponse<Roles>>("/api/rol", {
+        method: "POST",
+        body: {
+          nombre,
+        },
+      });
+
+      if (res.status === "success") {
+        toast.success("Se ha generado un nuevo rol con éxito");
+      } else {
+        toast.error(res.error || "Error al generar el rol");
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Error al generar el rol");
+    }
+  };
+
+  const updateRol = async (rolId: number, nombre: string) => {
+    try {
+      const res = await $fetch<APIResponse<Roles>>(`/api/rol/${rolId}`, {
+        method: "PUT",
+        body: {
+          nombre,
+        },
+      });
+
+      if (res.status === "success") {
+        toast.success(`Se ha modificado ${nombre} con éxito`);
+      } else {
+        toast.error(res.error || `Error al modificar el rol ${nombre}`);
+      }
+    } catch (error: any) {
+      toast.error(error.message || `Error al modificar el rol ${nombre}`);
+    }
+  };
+
   return {
     getRoles,
+    newRol,
+    updateRol,
     roles,
     error,
   };

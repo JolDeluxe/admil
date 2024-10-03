@@ -6,7 +6,7 @@ definePageMeta({
 
 <template>
   <div class="bg-grisFondo">
-    <UsuarioPanel1 />
-    <UsuarioTabla />
+    <RolesPanel1 />
+    <RolesTabla />
   </div>
 </template>

@@ -1,15 +1,37 @@
 <script setup lang="ts">
-const isMenuOpen = ref<boolean>(false);
 import menu from "~/assets/img/navbar/menu.png";
 import cerrar from "~/assets/img/navbar/cerrar.png";
+import { useDatoStore } from "~/stores/auth";
+
+const datoStore = useDatoStore();
+const { usuario, error } = storeToRefs(datoStore);
+const isMenuOpen = ref<boolean>(false);
+const isLogOutOpen = ref<boolean>(false);
+const router = useRouter();
+const authToken = useCookie("s-login");
+
+onMounted(async () => {
+  await getData();
+});
+
+async function getData() {
+  await datoStore.getUsuario();
+}
+
+function logout() {
+  authToken.value = null;
+  router.push("/login");
+}
 </script>
 
 <template>
   <nav
-    class="text-white top-0 left-0 py-3 w-full bg-VerdeMilitar bg-opacity-40"
+    class="text-white top-0 left-0 py-3 w-full flex items-center justify-center bg-VerdeMilitar bg-opacity-40"
   >
-    <div class="flex items-center mx-auto px-6 lg:px-0 container max-w-8xl">
-      <button class="lg:hidden block" @click="isMenuOpen = !isMenuOpen">
+    <div
+      class="flex items-center justify-between px-6 lg:px-0 container max-w-8xl relative"
+    >
+      <button class="block" @click="isMenuOpen = !isMenuOpen">
         <img
           v-if="!isMenuOpen"
           :src="menu"
@@ -25,37 +47,62 @@ import cerrar from "~/assets/img/navbar/cerrar.png";
       </button>
 
       <div
-        class="font-light hidden lg:flex justify-center mx-auto lg:-translate-x-16"
+        v-if="isMenuOpen"
+        class="absolute top-9 left-0 w-auto p-8 text-white bg-VerdeSecondary shadow-lg border-solid"
       >
-        <NuxtLink
-          to="/usuarios"
-          class="transition-all rounded-2xl cursor-pointer px-4 py-1 hover:underline"
-          >Usuarios</NuxtLink
+        <div
+          class="grid grid-cols-1 lg:grid-cols-3 items-center py-6 gap-6 text-center"
         >
-        <NuxtLink
-          to="/"
-          class="transition-all rounded-2xl cursor-pointer px-4 py-1 hover:underline"
-          >Roles</NuxtLink
-        >
-        <!-- <NuxtLink
-          to="/faqs"
-          class="transition-all rounded-2xl cursor-pointer px-4 py-1 hover:underline"
-          >FAQ'S</NuxtLink
-        >
-        <NuxtLink
-          to="/contacto"
-          class="transition-all rounded-2xl cursor-pointer px-4 py-1 hover:underline"
-          >Contacto</NuxtLink
-        > -->
+          <NuxtLink
+            v-if="usuario?.rol === 'Informatica'"
+            @click="isMenuOpen = false"
+            to="/usuarios"
+            class="hover:underline flex flex-col items-center"
+          >
+            <i class="mdi mdi-account text-3xl"></i>
+            <span>Usuarios</span>
+          </NuxtLink>
+
+          <NuxtLink
+            v-if="usuario?.rol === 'Informatica'"
+            @click="isMenuOpen = false"
+            to="/roles"
+            class="hover:underline flex flex-col items-center"
+          >
+            <i class="mdi mdi-account-key text-3xl"></i>
+            <span>Roles</span>
+          </NuxtLink>
+          <NuxtLink
+            v-if="usuario?.rol === 'Recursos Humanos'"
+            @click="isMenuOpen = false"
+            to="/administrativo"
+            class="hover:underline flex flex-col items-center"
+          >
+            <i class="mdi mdi-briefcase text-3xl"></i>
+            <span>Administrativo</span>
+          </NuxtLink>
+        </div>
       </div>
 
+      <div class="absolute left-1/2">
+        <span class="font-bold">Admil</span>
+      </div>
+
+      <div class="flex items-center">
+        <button class="flex" @click="isLogOutOpen = !isLogOutOpen">
+          <i class="mdi mdi-account pr-2"></i>
+          <p>{{ usuario?.nombre }}</p>
+        </button>
+      </div>
       <div
-        v-if="isMenuOpen"
-        class="lg:hidden absolute top-10 left-0 w-full text-white bg-VerdeSecondary shadow-lg"
+        v-if="isLogOutOpen"
+        class="absolute top-9 right-0 w-auto p-4 text-white bg-VerdeSecondary shadow-lg border-solid"
       >
-        <div class="flex flex-col items-center py-6 gap-6">
-          <NuxtLink to="/usuarios" class="hover:underline">Usuarios</NuxtLink>
-          <NuxtLink to="/roles" class="hover:underline">Roles</NuxtLink>
+        <div class="flex flex-col items-center py-6 gap-6 text-center">
+          <button @click="logout" class="flex items-center">
+            <i class="mdi mdi-account-off text-3xl"></i>
+            <span>Cerrar sesion</span>
+          </button>
         </div>
       </div>
     </div>
