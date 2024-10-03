@@ -1,9 +1,13 @@
 import type { APIResponse } from "~/server/lib/types";
+import type { Usuario } from "@prisma/client";
+import { useToast } from "vue-toast-notification";
 
 interface UsuarioParcial {
+  id: number;
   nombre: string;
   apellidos: string;
   email: string;
+  estatus: string;
   rol: {
     nombre: string;
   };
@@ -12,10 +16,10 @@ interface UsuarioParcial {
 export const useUsersStore = defineStore("users", () => {
   const usuarios = ref<UsuarioParcial[]>([]);
   const error = ref<string | null>(null);
+  const toast = useToast();
 
   const getUsuarios = async () => {
     error.value = null;
-
     try {
       const res = await $fetch<APIResponse<UsuarioParcial[]>>("/api/usuarios", {
         method: "GET",
@@ -34,8 +38,74 @@ export const useUsersStore = defineStore("users", () => {
     }
   };
 
+  const newUser = async (
+    nombre: string,
+    apellidos: string,
+    email: string,
+    contraseña: string,
+    rol: string
+  ) => {
+    try {
+      const res = await $fetch<APIResponse<Usuario>>("/api/usuarios", {
+        method: "POST",
+        body: {
+          nombre,
+          apellidos,
+          email,
+          contraseña,
+          rol,
+        },
+      });
+
+      if (res.status === "success") {
+        toast.success("Se ha generado un nuevo usuario con éxito");
+      } else {
+        toast.error(res.error || "Error al generar el usuario");
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Error al generar el usuario");
+    }
+  };
+
+  const updateUser = async (
+    userId: number,
+    nombre: string,
+    apellidos: string,
+    email: string,
+    contraseña: string,
+    rol: string,
+    estatus: string
+  ) => {
+    try {
+      const res = await $fetch<APIResponse<Usuario>>(
+        `/api/usuarios/${userId}`,
+        {
+          method: "PUT",
+          body: {
+            nombre,
+            apellidos,
+            email,
+            contraseña,
+            rol,
+            estatus,
+          },
+        }
+      );
+
+      if (res.status === "success") {
+        toast.success(`Se ha modificado ${nombre} con éxito`);
+      } else {
+        toast.error(res.error || `Error al modificar el usuario ${nombre}`);
+      }
+    } catch (error: any) {
+      toast.error(error.message || `Error al modificar el usuario ${nombre}`);
+    }
+  };
+
   return {
     getUsuarios,
+    newUser,
+    updateUser,
     usuarios,
     error,
   };

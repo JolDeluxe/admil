@@ -1,15 +1,35 @@
 import { prisma } from "../../../prisma/db/index";
+// import { isCookieValid } from "../../utils/cookies";
 
 export default defineEventHandler(async (event) => {
+  //   const cookie = getCookie(event, "s-login");
+  //   if (!isCookieValid(cookie)) {
+  //     throw createError({
+  //       statusCode: 401,
+  //       statusMessage: "Token inválido o expirado",
+  //     });
+  //   }
+
+  const params = event.context.params;
+
+  if (!params || !params.id) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "El ID no fue proporcionado",
+    });
+  }
+
+  const id = Number(params.id);
   const body = await readBody(event);
   const { nombre } = body;
 
   if (!nombre) {
     throw createError({
       statusCode: 400,
-      statusMessage: "Datos incompletos",
+      statusMessage: "Datos incompletos.",
     });
   }
+
   let roleExists;
   try {
     roleExists = await prisma.roles.findFirst({
@@ -30,20 +50,18 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const newRol = await prisma.roles.create({
-      data: {
-        nombre,
-      },
+    const rolActualizado = await prisma.roles.update({
+      where: { id },
+      data: { nombre },
     });
-
     return {
       status: "success",
-      data: newRol,
+      data: rolActualizado,
     };
   } catch (error) {
     throw createError({
       statusCode: 500,
-      statusMessage: "Error al crear el rol",
+      statusMessage: "Error al actualizar el rol",
     });
   }
 });

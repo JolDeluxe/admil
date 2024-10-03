@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { z } from "zod";
-import { ref } from "vue";
+import { ref, defineEmits, watchEffect, defineProps } from "vue";
+import { number, z } from "zod";
 import { toFieldValidator } from "@vee-validate/zod";
 import { useDisplay } from "vuetify";
 import { useForm, useField } from "vee-validate";
@@ -11,19 +11,21 @@ import { useUsersStore } from "~/stores/user";
 const rolStore = useRolStore();
 const userStore = useUsersStore();
 
-const { mobile } = useDisplay();
-const isSubmitting = ref(false);
-const emit = defineEmits(["cerrar"]);
-
 const { roles } = storeToRefs(rolStore);
 
-onMounted(async () => {
-  await getData();
+const props = defineProps({
+  usuario: {
+    type: Object,
+    required: true,
+    default: () => ({
+      id: null,
+      nombre: "",
+      apellidos: "",
+      rol: "",
+      estatus: "",
+    }),
+  },
 });
-
-async function getData() {
-  await rolStore.getRoles();
-}
 
 const schema = z.object({
   nombre: z
@@ -34,40 +36,60 @@ const schema = z.object({
     .string()
     .min(2, "Es necesario tener al menos 2 caracteres.")
     .nonempty("Debes ingresar un apellido"),
-  correo: z
-    .string()
-    .email("Debes ingresar un correo válido")
-    .nonempty("Debes ingresar un correo"),
+  correo: z.string().email("Debes ingresar un correo válido").optional(),
   contraseña: z
     .string()
     .min(5, "Es necesario tener al menos 5 caracteres.")
-    .nonempty("Debes ingresar una contraseña"),
+    .optional(),
   rol: z
     .string()
     .min(2, "Es necesario tener al menos 2 caracteres.")
     .nonempty("Debes ingresar un rol"),
+  estatus: z
+    .string()
+    .min(2, "Es necesario tener al menos 2 caracteres.")
+    .nonempty("Debes ingresar un estatus"),
 });
-
 const { handleSubmit, meta } = useForm({
   validationSchema: toFieldValidator(schema),
 });
 
+const idUser = ref<number | null>(null);
 const nombre = useField("nombre");
 const apellidos = useField("apellidos");
 const correo = useField("correo");
 const contraseña = useField("contraseña");
 const rol: FieldContext<string> = useField("rol");
+const estatus: FieldContext<string> = useField("estatus");
+
+const emit = defineEmits(["cerrar"]);
+const { mobile } = useDisplay();
+const isSubmitting = ref(false);
+
+watchEffect(() => {
+  if (props.usuario) {
+    idUser.value = props.usuario.id || null;
+    nombre.value.value = props.usuario.nombre || "";
+    apellidos.value.value = props.usuario.apellidos || "";
+    rol.value.value = props.usuario.rol.nombre || "";
+    estatus.value.value = props.usuario.estatus || "";
+  }
+});
 
 const submit = handleSubmit(async (values) => {
   isSubmitting.value = true;
   try {
-    await userStore.newUser(
-      values.nombre,
-      values.apellidos,
-      values.correo,
-      values.contraseña,
-      values.rol
-    );
+    if (idUser.value !== null) {
+      await userStore.updateUser(
+        idUser.value,
+        values.nombre,
+        values.apellidos,
+        values.correo || "",
+        values.contraseña || "",
+        values.rol,
+        values.estatus
+      );
+    }
   } finally {
     isSubmitting.value = false;
     location.reload();
@@ -82,7 +104,7 @@ const submit = handleSubmit(async (values) => {
     <div
       class="text-2xl py-4 px-6 bg-green-950 text-white text-center font-bold uppercase"
     >
-      Nuevo Usuario
+      Editar {{ props.usuario.nombre }}
     </div>
 
     <form class="px-6 py-4" @submit.prevent="submit">
@@ -124,6 +146,13 @@ const submit = handleSubmit(async (values) => {
         v-model="rol.value.value"
         :prepend-icon="mobile == true ? '' : 'mdi-hard-hat'"
         :items="roles.map((role) => role.nombre)"
+        variant="outlined"
+      ></v-autocomplete>
+      <v-autocomplete
+        label="Cambia de estatus"
+        v-model="estatus.value.value"
+        :prepend-icon="mobile == true ? '' : 'mdi-hard-hat'"
+        :items="['ACTIVO', 'INACTIVO']"
         variant="outlined"
       ></v-autocomplete>
       <div class="flex py-5 items-center justify-center gap-12">
