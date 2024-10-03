@@ -81,6 +81,47 @@ function logout() {
             <i class="mdi mdi-briefcase text-3xl"></i>
             <span>Administrativo</span>
           </NuxtLink>
+         
+          <NuxtLink
+            v-if="usuario?.rol === 'Aspirantes'"
+            @click="isMenuOpen = false"
+            to="/Adminison/RegistrosPublicos"
+            class="hover:underline flex flex-col items-center"
+          >
+            <i class="mdi mdi-account text-3xl"></i>
+            <span>Aspirantes</span>
+          </NuxtLink>
+
+          <NuxtLink
+            v-if="usuario?.rol === 'Aspirantes'"
+            @click="isMenuOpen = false"
+            to="/Adminison/Registros_asp"
+            class="hover:underline flex flex-col items-center"
+          >
+            <i class="mdi mdi-account text-3xl"></i>
+            <span>Registros de aspirantes</span>
+          </NuxtLink>
+
+          <NuxtLink
+            v-if="usuario?.rol === 'Recursos Humanos'"
+            @click="isMenuOpen = false"
+            to="/Admisiones/CatalagoPeriodos"
+            class="hover:underline flex flex-col items-center"
+          >
+            <i class="mdi mdi-briefcase text-3xl"></i>
+            <span> Registro Peridos</span>
+          </NuxtLink>
+
+          <NuxtLink
+            v-if="usuario?.rol === 'Recursos Humanos'"
+            @click="isMenuOpen = false"
+            to="/Admisiones/Seleccion_asp"
+            class="hover:underline flex flex-col items-center"
+          >
+            <i class="mdi mdi-briefcase text-3xl"></i>
+            <span>Seleccion aspirantes</span>
+          </NuxtLink>
+
         </div>
       </div>
 
