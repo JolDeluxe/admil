@@ -22,6 +22,9 @@ async function main() {
     {
       nombre: "RH",
     },
+    {
+      nombre: "TI",
+    },
   ];
 
   for (const rol of roles) {

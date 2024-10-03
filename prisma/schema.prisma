@@ -13,12 +13,18 @@ model Usuario {
   nombre          String
   email           String    @unique
   apellidos       String
+  estatus         Estatus   @default(ACTIVO)
   salt            String    @db.Text
   hashedPassword  String    @db.Text
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt 
   rolId           Int
   rol             Roles     @relation(fields: [rolId], references: [id]) 
+}
+
+enum Estatus {
+  ACTIVO 
+  INACTIVO
 }
 
 model Roles {

@@ -27,15 +27,21 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@prisma/client": "^5.19.1",
+    "@prisma/client": "^5.20.0",
     "@tailwindcss/forms": "^0.5.9",
+    "@types/bun": "latest",
     "@types/jsonwebtoken": "^9.0.7",
-    "prisma": "^5.19.1",
+    "postcss": "^8.4.40",
+    "prisma": "^5.20.0",
     "tailwindcss": "^3.4.12",
     "vite-plugin-vuetify": "^2.0.4",
+<<<<<<< HEAD
     "postcss": "^8.4.40",
     "vuetify": "^3.7.2",
     "@types/bun": "latest"
+=======
+    "vuetify": "^3.7.2"
+>>>>>>> fe521b10af5bdbe8673de41f174f5644e596b2b4
   },
   "module": "index.ts",
   "peerDependencies": {
