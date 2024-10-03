@@ -69,6 +69,13 @@ async function main() {
       password: "jaqui123",
       rol: 2,
     },
+    {
+      nombre: "Isaac",
+      apellidos: "Murillo",
+      email: "isaac@gmail.com",
+      password: "Isaaci123",
+      rol: 3,
+    },
   ];
 
   for (const usuario of usuarios) {
