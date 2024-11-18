@@ -11,7 +11,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        VerdeMilitar: "#0C231E",
+        Principal: "#BE1717",
         VerdeSecondary: "#13322b",
         MarronFuerte: "#4B3A30",
         VerdeCamuflajeClaro: "#6B8E23",

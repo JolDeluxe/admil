@@ -2,7 +2,7 @@
 const myCustomLightTheme = {
   dark: false,
   colors: {
-    VerdeMilitar: "#0C231E",
+    Principal: "#C91A1A",
     VerdeSecondary: "#13322b",
     MarronFuerte: "#4B3A30",
     VerdeCamuflajeClaro: "#6B8E23",
@@ -26,7 +26,7 @@ export default defineNuxtConfig({
     head: {
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
-      title: "Admil | Escuela ",
+      title: "InnovaTube",
     },
   },
   vuetify: {

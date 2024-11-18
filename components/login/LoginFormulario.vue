@@ -53,9 +53,10 @@ const submit = handleSubmit(async (values) => {
           ></v-text-field>
         </div>
         <div class="flex flex-col py-5">
+          
           <v-btn
             block
-            class="bg-VerdeMilitar py-6 px-6 rounded-lg"
+            class="bg-Principal py-6 px-6 rounded-lg"
             type="submit"
             :loading="isSubmitting"
           >
@@ -63,6 +64,25 @@ const submit = handleSubmit(async (values) => {
           </v-btn>
         </div>
       </form>
+      <!-- recuperar contraseña -->
+      <div class="text-center">
+        <NuxtLink
+        to="/recuperarcontrasenia"
+        class="text-sm text-blue-500 hover:underline"
+        >
+          ¿Olvidaste tu contraseña?
+        </NuxtLink>
+      </div>
+
+      <!-- Enlace para registrar cuenta -->
+      <div class="text-center pt-4">
+        <NuxtLink
+          to="/registrar" 
+          class="text-sm text-blue-500 hover:underline"
+        >
+          ¿No tienes cuenta? Regístrate aquí.
+        </NuxtLink>
+      </div>
     </div>
   </div>
 </template>

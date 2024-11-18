@@ -8,9 +8,6 @@ interface UsuarioParcial {
   apellidos: string;
   email: string;
   estatus: string;
-  rol: {
-    nombre: string;
-  };
 }
 
 export const useUsersStore = defineStore("users", () => {
@@ -43,7 +40,6 @@ export const useUsersStore = defineStore("users", () => {
     apellidos: string,
     email: string,
     contraseña: string,
-    rol: string
   ) => {
     try {
       const res = await $fetch<APIResponse<Usuario>>("/api/usuarios", {
@@ -53,7 +49,6 @@ export const useUsersStore = defineStore("users", () => {
           apellidos,
           email,
           contraseña,
-          rol,
         },
       });
 
@@ -67,45 +62,10 @@ export const useUsersStore = defineStore("users", () => {
     }
   };
 
-  const updateUser = async (
-    userId: number,
-    nombre: string,
-    apellidos: string,
-    email: string,
-    contraseña: string,
-    rol: string,
-    estatus: string
-  ) => {
-    try {
-      const res = await $fetch<APIResponse<Usuario>>(
-        `/api/usuarios/${userId}`,
-        {
-          method: "PUT",
-          body: {
-            nombre,
-            apellidos,
-            email,
-            contraseña,
-            rol,
-            estatus,
-          },
-        }
-      );
-
-      if (res.status === "success") {
-        toast.success(`Se ha modificado ${nombre} con éxito`);
-      } else {
-        toast.error(res.error || `Error al modificar el usuario ${nombre}`);
-      }
-    } catch (error: any) {
-      toast.error(error.message || `Error al modificar el usuario ${nombre}`);
-    }
-  };
 
   return {
     getUsuarios,
     newUser,
-    updateUser,
     usuarios,
     error,
   };

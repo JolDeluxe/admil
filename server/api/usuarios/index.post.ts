@@ -2,30 +2,12 @@ import { prisma } from "../../../prisma/db/index";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
-  const { nombre, apellidos, rol, email, contraseña } = body;
+  const { nombre, apellidos, email, contraseña } = body;
 
-  if (!nombre || !apellidos || !rol || !contraseña) {
+  if (!nombre || !apellidos || !contraseña) {
     throw createError({
       statusCode: 400,
       statusMessage: "Datos incompletos",
-    });
-  }
-  let roleExists;
-  try {
-    roleExists = await prisma.roles.findFirst({
-      where: { nombre: rol },
-    });
-  } catch (error) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: "Error al verificar el rol",
-    });
-  }
-
-  if (!roleExists) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: "El rol especificado no existe",
     });
   }
 
@@ -68,9 +50,6 @@ export default defineEventHandler(async (event) => {
         email,
         salt: salt,
         hashedPassword: hashed_password,
-        rol: {
-          connect: { id: roleExists.id },
-        },
       },
     });
 

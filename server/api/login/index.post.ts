@@ -17,7 +17,6 @@ export default defineEventHandler(async (event) => {
   try {
     user = await prisma.usuario.findFirst({
       where: { email },
-      include: { rol: true },
     });
   } catch (error) {
     throw createError({
@@ -48,7 +47,6 @@ export default defineEventHandler(async (event) => {
       nombre: user.nombre,
       apellidos: user.apellidos,
       email: user.email,
-      rol: user.rol.nombre,
     },
     process.env.JWT_SECRET as string,
     {
@@ -63,7 +61,6 @@ export default defineEventHandler(async (event) => {
       nombre: user.nombre,
       apellidos: user.apellidos,
       email: user.email,
-      rol: user.rol.nombre,
     },
     token,
   };
